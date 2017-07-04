@@ -1,5 +1,7 @@
 /* Generated from Java with JSweet 1.2.0 - http://www.jsweet.org */
 namespace com.heatledger.game.shooter.client.view {
+    import Tanks = com.heatledger.game.shooter.client.objects.Tanks;
+
     import Animation = com.heatledger.game.shooter.client.tools.Animation;
 
     export class TankView implements ElementView {
@@ -15,20 +17,27 @@ namespace com.heatledger.game.shooter.client.view {
 
         private selected : boolean = false;
 
-        animation : Animation = new Animation("sprite-breakable-block", 10, 0, 84);
+        animation : Animation = new Animation("sprite-breakable-block", 10, 85, 84);
 
         public setCooridnates(x : number, y : number) {
             this.x = x;
             this.y = y;
         }
 
-        public constructor(x : number, y : number) {
+        public constructor(x : number, y : number, type : TankView.Type) {
             this.dirx = 0;
             this.diry = 0;
             this.x = 0;
             this.y = 0;
             this.x = x;
             this.y = y;
+            if(type === TankView.Type.green) {
+                this.animation = new Animation("sprite-breakable-block", 10, 0, 84);
+            } else if(type === TankView.Type.red) {
+                this.animation = new Animation("sprite-breakable-block", 10, 85, 84);
+            } else {
+                throw new Error("Unknown tank type: " + type);
+            }
         }
 
         public getX() : number {
@@ -70,6 +79,14 @@ namespace com.heatledger.game.shooter.client.view {
     TankView["__class"] = "com.heatledger.game.shooter.client.view.TankView";
     TankView["__interfaces"] = ["com.heatledger.game.shooter.client.view.ElementView"];
 
+
+
+    export namespace TankView {
+
+        export enum Type {
+            green, red
+        }
+    }
 
 }
 

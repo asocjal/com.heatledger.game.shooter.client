@@ -18,6 +18,13 @@
         <artifactId>j4ts</artifactId>
         <version>0.1.0</version>
     </dependency>
+    <dependency>
+	  <groupId>org.jsweet.candies</groupId>
+	  <artifactId>jquery</artifactId>
+	  <version>1.10.0-1.0.0-20160202</version>
+	</dependency>
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+    
   </dependencies>
   <!-- end dependencies -->
   

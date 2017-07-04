@@ -1,35 +1,30 @@
 /* Generated from Java with JSweet 1.2.0 - http://www.jsweet.org */
 namespace com.heatledger.game.shooter.client.view {
-    import ArrayList = java.util.ArrayList;
+    import HashMap = java.util.HashMap;
 
     import List = java.util.List;
 
-    export class ElementsToDraw {
-        private elements : List<ElementView> = <any>(new ArrayList<ElementView>());
+    import Map = java.util.Map;
 
-        public add(elementView : ElementView) {
-            this.elements.add(elementView);
+    export class ElementsToDraw {
+        private elemntGroups : Map<string, List<any>> = <any>(new HashMap<string, List<any>>());
+
+        public assign(id : string, elements : List<any>) {
+            this.elemntGroups.put(id, elements);
         }
 
         public draw(drawCanvas : DrawCanvas) {
-            for(let index144=this.elements.iterator();index144.hasNext();) {
-                let el = index144.next();
+            for(let index756=this.elemntGroups.values().iterator();index756.hasNext();) {
+                let elements = index756.next();
                 {
-                    el.draw(drawCanvas);
+                    for(let index757=elements.iterator();index757.hasNext();) {
+                        let el = index757.next();
+                        {
+                            el.draw(drawCanvas);
+                        }
+                    }
                 }
             }
-        }
-
-        public getSize() : number {
-            return this.elements.size();
-        }
-
-        public get(index : number) : ElementView {
-            return this.elements.get(index);
-        }
-
-        public getList() : List<ElementView> {
-            return this.elements;
         }
     }
     ElementsToDraw["__class"] = "com.heatledger.game.shooter.client.view.ElementsToDraw";

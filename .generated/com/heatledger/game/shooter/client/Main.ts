@@ -1,5 +1,11 @@
 /* Generated from Java with JSweet 1.2.0 - http://www.jsweet.org */
 namespace com.heatledger.game.shooter.client {
+    import ArrayList = java.util.ArrayList;
+
+    import List = java.util.List;
+
+    import Tanks = com.heatledger.game.shooter.client.objects.Tanks;
+
     import ServerConnection = com.heatledger.game.shooter.client.server.connection.ServerConnection;
 
     import DrawCanvas = com.heatledger.game.shooter.client.view.DrawCanvas;
@@ -9,11 +15,13 @@ namespace com.heatledger.game.shooter.client {
     import TankView = com.heatledger.game.shooter.client.view.TankView;
 
     export class Main {
-        tankView : TankView;
-
         serverConnection : ServerConnection = null;
 
         elementsToDraw : ElementsToDraw = new ElementsToDraw();
+
+        greenTanks : Tanks = new Tanks(this.elementsToDraw, TankView.Type.green);
+
+        redTanks : Tanks = new Tanks(this.elementsToDraw, TankView.Type.red);
 
         drawCanvas : DrawCanvas;
 
@@ -26,25 +34,42 @@ namespace com.heatledger.game.shooter.client {
         }
 
         public run() {
-            alert("Waiting for serer connection");
             this.serverConnection = new ServerConnection();
             this.serverConnection.connect();
             this.serverConnection.onConnected((event) => {
-                alert("Connected to server");
                 let canvas : HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas");
                 this.drawCanvas = new DrawCanvas(canvas);
-                this.tankView = new TankView(10, 10);
-                this.elementsToDraw.add(this.tankView);
+                this.serverConnection.send("get-sell-offers");
                 this.onFrame();
                 return null;
             });
             this.serverConnection.addMessageListener((message) => {
                 let msg : string = message.data.toString();
-                let split : string[] = msg.split("x");
-                this.tankView.setCooridnates(javaemul.internal.DoubleHelper.parseDouble(split[0]), javaemul.internal.DoubleHelper.parseDouble(split[1]));
+                let msgs : string[] = msg.split("SEPARATEMSG");
+                if(msgs.length !== 2) {
+                    throw new Error("Incorrect message: " + msg);
+                }
+                this.refreshOffers(msgs[1], this.greenTanks);
+                this.refreshOffers(msgs[0], this.redTanks);
+                this.serverConnection.send("get-sell-offers");
                 return null;
             });
-            let animations : any = {};
+        }
+
+        private refreshOffers(jsonMsg : string, tanks : Tanks) {
+            let arr : Array<any> = <Array<any>>JSON.parse(jsonMsg);
+            let offers : List<Offer> = <any>(new ArrayList<Offer>((<number>arr.length|0)));
+            for(let index752=0; index752 < arr.length; index752++) {
+                let obj = arr[index752];
+                {
+                    offers.add(this.revive(obj));
+                }
+            }
+            tanks.refreshElementsToDraw(offers);
+        }
+
+        private revive(untypedDto : any) : Offer {
+            return <Offer>$.extend(new Offer(), untypedDto);
         }
 
         private animateFrame() {
@@ -53,7 +78,6 @@ namespace com.heatledger.game.shooter.client {
         }
 
         private onFrame() {
-            this.serverConnection.send("Give me coordinates");
             this.animateFrame();
             window.requestAnimationFrame((time) => {
                 this.onFrame();

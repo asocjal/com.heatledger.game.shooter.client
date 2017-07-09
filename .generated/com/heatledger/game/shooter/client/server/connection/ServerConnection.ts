@@ -11,7 +11,7 @@ namespace com.heatledger.game.shooter.client.server.connection {
 
         public connect() {
             console.info("Socket connecting... to remote ");
-            this.socket = new WebSocket("ws://192.168.0.20/shooter/websocketendpoint");
+            this.socket = new WebSocket("ws://89.65.185.54/shooter/websocketendpoint");
         }
 
         public onConnected(listener : (p1: Event) => any) {

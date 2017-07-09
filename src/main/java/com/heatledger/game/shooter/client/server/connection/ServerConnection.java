@@ -18,7 +18,7 @@ public class ServerConnection {
 	
 	public void connect() {
 		console.info("Socket connecting... to remote ");
-		socket = new WebSocket("ws://192.168.0.18/shooter/websocketendpoint");
+		socket = new WebSocket("ws://89.65.185.54/shooter/websocketendpoint");
 		
 //		socket.addEventListener(jsweet.util.StringTypes.open, event -> {
 //			connected = true;

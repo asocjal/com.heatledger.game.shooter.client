@@ -14,11 +14,11 @@ namespace com.heatledger.game.shooter.client.view {
         }
 
         public draw(drawCanvas : DrawCanvas) {
-            for(let index756=this.elemntGroups.values().iterator();index756.hasNext();) {
-                let elements = index756.next();
+            for(let index159=this.elemntGroups.values().iterator();index159.hasNext();) {
+                let elements = index159.next();
                 {
-                    for(let index757=elements.iterator();index757.hasNext();) {
-                        let el = index757.next();
+                    for(let index160=elements.iterator();index160.hasNext();) {
+                        let el = index160.next();
                         {
                             el.draw(drawCanvas);
                         }

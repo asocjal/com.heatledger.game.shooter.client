@@ -1,6 +1,5 @@
 package com.heatledger.game.shooter.client.view;
 
-import com.heatledger.game.shooter.client.objects.Tanks;
 import com.heatledger.game.shooter.client.tools.Animation;
 
 public class TankView implements ElementView {
@@ -14,7 +13,7 @@ public class TankView implements ElementView {
 	private double y;
 	private boolean selected = false;
 	
-	Animation animation = new Animation("sprite-breakable-block", 10, 85, 84);
+	Animation animation = new Animation("sprite-breakable-block", 10, 85, 84, 5);
 	
 	public void setCooridnates(double x, double y) {
 		this.x = x;
@@ -31,9 +30,9 @@ public class TankView implements ElementView {
 //		this.node = node;
 //		this.node.setView(this);
 		if(type == Type.green) {
-			animation = new Animation("sprite-breakable-block", 10, 0, 84);
+			animation = new Animation("sprite-breakable-block", 10, 0, 84, 5);
 		} else if(type == Type.red) {
-			animation = new Animation("sprite-breakable-block", 10, 85, 84);
+			animation = new Animation("sprite-breakable-block", 10, 85, 84, 5);
 		} else {
 			throw new RuntimeException("Unknown tank type: " + type);
 		}

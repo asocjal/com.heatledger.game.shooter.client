@@ -1,7 +1,5 @@
 /* Generated from Java with JSweet 1.2.0 - http://www.jsweet.org */
 namespace com.heatledger.game.shooter.client.view {
-    import Tanks = com.heatledger.game.shooter.client.objects.Tanks;
-
     import Animation = com.heatledger.game.shooter.client.tools.Animation;
 
     export class TankView implements ElementView {
@@ -17,7 +15,7 @@ namespace com.heatledger.game.shooter.client.view {
 
         private selected : boolean = false;
 
-        animation : Animation = new Animation("sprite-breakable-block", 10, 85, 84);
+        animation : Animation = new Animation("sprite-breakable-block", 10, 85, 84, 5);
 
         public setCooridnates(x : number, y : number) {
             this.x = x;
@@ -32,9 +30,9 @@ namespace com.heatledger.game.shooter.client.view {
             this.x = x;
             this.y = y;
             if(type === TankView.Type.green) {
-                this.animation = new Animation("sprite-breakable-block", 10, 0, 84);
+                this.animation = new Animation("sprite-breakable-block", 10, 0, 84, 5);
             } else if(type === TankView.Type.red) {
-                this.animation = new Animation("sprite-breakable-block", 10, 85, 84);
+                this.animation = new Animation("sprite-breakable-block", 10, 85, 84, 5);
             } else {
                 throw new Error("Unknown tank type: " + type);
             }

@@ -5,9 +5,10 @@ import static jsweet.dom.Globals.document;
 import com.heatledger.game.shooter.client.view.DrawCanvas;
 
 import jsweet.dom.CanvasRenderingContext2D;
+import jsweet.dom.HTMLAudioElement;
 import jsweet.dom.HTMLImageElement;
 
-public class Animation {
+public class LoopAnimation {
 	
 	private final HTMLImageElement sprite;
 	
@@ -32,7 +33,7 @@ public class Animation {
 		}
 	}
 	
-	public Animation(final String spriteId, final int speed, int imgPos, int width) {
+	public LoopAnimation(final String spriteId, final int speed, int imgPos, int width) {
 		sprite = (HTMLImageElement) document.getElementById(spriteId);
 		this.speed = speed;
 		this.imgPos = imgPos;

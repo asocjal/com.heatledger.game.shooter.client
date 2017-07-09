@@ -8,6 +8,12 @@ namespace com.heatledger.game.shooter.client {
 
     import ServerConnection = com.heatledger.game.shooter.client.server.connection.ServerConnection;
 
+    import Animation = com.heatledger.game.shooter.client.tools.Animation;
+
+    import Audio = com.heatledger.game.shooter.client.tools.Audio;
+
+    import SingleAnimation = com.heatledger.game.shooter.client.tools.SingleAnimation;
+
     import DrawCanvas = com.heatledger.game.shooter.client.view.DrawCanvas;
 
     import ElementsToDraw = com.heatledger.game.shooter.client.view.ElementsToDraw;
@@ -23,6 +29,12 @@ namespace com.heatledger.game.shooter.client {
 
         redTanks : Tanks = new Tanks(this.elementsToDraw, TankView.Type.red);
 
+        animation : Animation = new Animation("sprite-breakable-block", 10, 168, 84, 4);
+
+        audio : Audio = new Audio("audio_gun_shot");
+
+        singleAnimation : SingleAnimation = new SingleAnimation(this.animation, this.audio);
+
         drawCanvas : DrawCanvas;
 
         public static main(args : string[]) {
@@ -33,6 +45,11 @@ namespace com.heatledger.game.shooter.client {
             };
         }
 
+        public onMouseUp(event : MouseEvent) {
+            event.preventDefault();
+            this.singleAnimation.play(event.clientX - 40, event.clientY - 40);
+        }
+
         public run() {
             this.serverConnection = new ServerConnection();
             this.serverConnection.connect();
@@ -41,6 +58,11 @@ namespace com.heatledger.game.shooter.client {
                 this.drawCanvas = new DrawCanvas(canvas);
                 this.serverConnection.send("get-sell-offers");
                 this.onFrame();
+                canvas.addEventListener("mouseup", (mouseEvent) => {
+                    console.info("Mouse up");
+                    this.onMouseUp(mouseEvent);
+                    return null;
+                }, true);
                 return null;
             });
             this.serverConnection.addMessageListener((message) => {
@@ -59,8 +81,8 @@ namespace com.heatledger.game.shooter.client {
         private refreshOffers(jsonMsg : string, tanks : Tanks) {
             let arr : Array<any> = <Array<any>>JSON.parse(jsonMsg);
             let offers : List<Offer> = <any>(new ArrayList<Offer>((<number>arr.length|0)));
-            for(let index752=0; index752 < arr.length; index752++) {
-                let obj = arr[index752];
+            for(let index155=0; index155 < arr.length; index155++) {
+                let obj = arr[index155];
                 {
                     offers.add(this.revive(obj));
                 }
@@ -75,6 +97,7 @@ namespace com.heatledger.game.shooter.client {
         private animateFrame() {
             this.drawCanvas.getCtx().clearRect(0, 0, this.drawCanvas.getWidth(), this.drawCanvas.getHeight());
             this.elementsToDraw.draw(this.drawCanvas);
+            this.singleAnimation.onFrame(this.drawCanvas);
         }
 
         private onFrame() {
